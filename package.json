@@ -1,0 +1,25 @@
+{
+  "type": "module",
+  "name": "memory-leak-mongoose",
+  "version": "1.0.0",
+  "main": "app.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fastify": "^4.0.0",
+    "fastify-plugin": "^4.0.0",
+    "mongodb-memory-server": "^9.1.1",
+    "mongoose": "^8.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}
