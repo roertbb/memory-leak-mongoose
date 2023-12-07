@@ -2,18 +2,11 @@ import mongoose from "mongoose";
 
 import { mongoUri } from "./in-memory-mongo.js";
 
-// based on https://mongoosejs.com/docs/connections.html#multi-tenant-connections
-
-export class BlogRepository {
+export class LeakingBlogRepository {
   static repositories = {};
 
   constructor(dbName) {
     const connection = MongoConnectionProvider.getFor(dbName);
-
-    if (connection.models["blog"]) {
-      this.Blog = connection.models["blog"];
-      return;
-    }
 
     const blogSchema = new mongoose.Schema({
       title: String,
@@ -37,11 +30,11 @@ export class BlogRepository {
   }
 }
 
-class MongoConnectionProvider {
+export class MongoConnectionProvider {
   static getFor(dbName) {
     if (!this.connection) {
       this.connection = mongoose.createConnection(mongoUri);
     }
-    return this.connection.useDb(dbName, { useCache: true });
+    return this.connection.useDb(dbName);
   }
 }

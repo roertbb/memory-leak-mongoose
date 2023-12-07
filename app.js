@@ -3,8 +3,9 @@ import * as os from "os";
 import * as v8 from "v8";
 import Fastify from "fastify";
 
-import { BlogRepository } from "./blog-repository.js";
+import { LeakingBlogRepository } from "./leaking-blog-repository.js";
 import { setupDb } from "./in-memory-mongo.js";
+import { BlogRepository } from "./blog-repository.js";
 
 const fastify = Fastify({
   logger: true,
@@ -12,7 +13,7 @@ const fastify = Fastify({
 
 fastify.post("/leaking-blog", async function handler(request, reply) {
   for (let i = 0; i < 10000; i++) {
-    const repo = new BlogRepository(`tenant-${i % 10}`);
+    const repo = new LeakingBlogRepository(`tenant-${i % 10}`);
     await repo.create(`Blog post #${i}`, "Lorem ipsum...");
   }
   return { done: true };
@@ -20,7 +21,7 @@ fastify.post("/leaking-blog", async function handler(request, reply) {
 
 fastify.post("/blog", async function handler(request, reply) {
   for (let i = 0; i < 10000; i++) {
-    const repo = BlogRepository.getFor(`tenant-${i % 10}`);
+    const repo = new BlogRepository(`tenant-${i % 10}`);
     await repo.create(`Blog post #${i}`, "Lorem ipsum...");
   }
   return { done: true };
