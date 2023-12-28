@@ -4,9 +4,12 @@ import { mongoUri } from "./in-memory-mongo.js";
 
 // based on https://mongoosejs.com/docs/connections.html#multi-tenant-connections
 
-export class BlogRepository {
-  static repositories = {};
+const blogSchema = new mongoose.Schema({
+  title: String,
+  content: String,
+});
 
+export class BlogRepository {
   constructor(dbName) {
     const connection = MongoConnectionProvider.getFor(dbName);
 
@@ -15,19 +18,7 @@ export class BlogRepository {
       return;
     }
 
-    const blogSchema = new mongoose.Schema({
-      title: String,
-      content: String,
-    });
-
     this.Blog = connection.model("blog", blogSchema);
-  }
-
-  static getFor(dbName) {
-    if (!this.repositories[dbName]) {
-      this.repositories[dbName] = new BlogRepository(dbName);
-    }
-    return this.repositories[dbName];
   }
 
   async create(title, content) {

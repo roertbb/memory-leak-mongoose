@@ -12,18 +12,18 @@ const fastify = Fastify({
 });
 
 fastify.post("/leaking-blog", async function handler(request, reply) {
-  for (let i = 0; i < 10000; i++) {
-    const repo = new LeakingBlogRepository(`tenant-${i % 10}`);
-    await repo.create(`Blog post #${i}`, "Lorem ipsum...");
-  }
+  const tenantId = Math.floor(Math.random() * 10);
+  const repo = new LeakingBlogRepository(`tenant-${tenantId}`);
+  await repo.create(`Blog post for tenant #${tenantId}`, "Lorem ipsum...");
+
   return { done: true };
 });
 
 fastify.post("/blog", async function handler(request, reply) {
-  for (let i = 0; i < 10000; i++) {
-    const repo = new BlogRepository(`tenant-${i % 10}`);
-    await repo.create(`Blog post #${i}`, "Lorem ipsum...");
-  }
+  const tenantId = Math.floor(Math.random() * 10);
+  const repo = new BlogRepository(`tenant-${tenantId}`);
+  await repo.create(`Blog post for tenant #${tenantId}`, "Lorem ipsum...");
+
   return { done: true };
 });
 
