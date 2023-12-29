@@ -8,10 +8,10 @@
   },
   "scripts": {
     "start": "node app.js",
-    "start:inspect": "node --inspect-brk app.js",
+    "start:inspect": "node --inspect app.js",
     "dev": "nodemon app.js",
-    "test:blog": "autocannon -c 10000 -m POST http://localhost:3000/blog",
-    "test:leaking-blog": "autocannon -c 10000 -m POST http://localhost:3000/leaking-blog"
+    "test:posts": "autocannon -c 10 -m POST http://localhost:3000/posts",
+    "test:leaking-posts": "autocannon -c 10 -m POST http://localhost:3000/leaking-posts"
   },
   "keywords": [],
   "author": "",

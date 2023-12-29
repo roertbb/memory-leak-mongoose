@@ -4,7 +4,7 @@ import { mongoUri } from "./in-memory-mongo.js";
 
 // based on https://mongoosejs.com/docs/connections.html#multi-tenant-connections
 
-const blogSchema = new mongoose.Schema({
+const postSchema = new mongoose.Schema({
   title: String,
   content: String,
 });
@@ -13,18 +13,16 @@ export class BlogRepository {
   constructor(dbName) {
     const connection = MongoConnectionProvider.getFor(dbName);
 
-    if (connection.models["blog"]) {
-      this.Blog = connection.models["blog"];
+    if (connection.models["post"]) {
+      this.Post = connection.models["post"];
       return;
     }
 
-    this.Blog = connection.model("blog", blogSchema);
+    this.Post = connection.model("post", postSchema);
   }
 
-  async create(title, content) {
-    const blog = new this.Blog({ title, content });
-    await blog.save();
-    return blog;
+  async createPost(title, content) {
+    return await this.Post.create({ title, content });
   }
 }
 

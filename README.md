@@ -1,3 +1,0 @@
-- https://mongoosejs.com/docs/connections.html#multi-tenant-connections
-- https://github.com/Automattic/mongoose/issues/2874
-- https://kentcdodds.com/blog/fixing-a-memory-leak-in-a-production-node-js-app

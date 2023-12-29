@@ -11,18 +11,18 @@ const fastify = Fastify({
   logger: true,
 });
 
-fastify.post("/leaking-blog", async function handler(request, reply) {
+fastify.post("/leaking-posts", async function handler(request, reply) {
   const tenantId = Math.floor(Math.random() * 10);
   const repo = new LeakingBlogRepository(`tenant-${tenantId}`);
-  await repo.create(`Blog post for tenant #${tenantId}`, "Lorem ipsum...");
+  await repo.createPost(`Blog post for tenant #${tenantId}`, "Lorem ipsum...");
 
   return { done: true };
 });
 
-fastify.post("/blog", async function handler(request, reply) {
+fastify.post("/posts", async function handler(request, reply) {
   const tenantId = Math.floor(Math.random() * 10);
   const repo = new BlogRepository(`tenant-${tenantId}`);
-  await repo.create(`Blog post for tenant #${tenantId}`, "Lorem ipsum...");
+  await repo.createPost(`Blog post for tenant #${tenantId}`, "Lorem ipsum...");
 
   return { done: true };
 });

@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 import { mongoUri } from "./in-memory-mongo.js";
 
-const blogSchema = new mongoose.Schema({
+const postSchema = new mongoose.Schema({
   title: String,
   content: String,
 });
@@ -11,13 +11,11 @@ export class LeakingBlogRepository {
   constructor(dbName) {
     const connection = MongoConnectionProvider.getFor(dbName);
 
-    this.Blog = connection.model("blog", blogSchema);
+    this.Post = connection.model("post", postSchema);
   }
 
-  async create(title, content) {
-    const blog = new this.Blog({ title, content });
-    await blog.save();
-    return blog;
+  async createPost(title, content) {
+    return await this.Post.create({ title, content });
   }
 }
 
